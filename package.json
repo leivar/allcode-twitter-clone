@@ -15,9 +15,12 @@
     "axios": "^1.10.0",
     "next": "15.3.4",
     "next-auth": "^4.24.11",
+    "nextjs": "^0.0.3",
+    "node": "^20.19.3",
     "prisma": "^6.10.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -28,6 +31,19 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "tailwindcss": "^4",
+    "types": "^0.1.1",
     "typescript": "^5"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leivar/allcode-twitter-clone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leivar/allcode-twitter-clone/issues"
+  },
+  "homepage": "https://github.com/leivar/allcode-twitter-clone#readme"
 }
