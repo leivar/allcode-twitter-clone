@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider"
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getAuthOptions } from "@/lib/auth";
+import QueryPorivder from "@/components/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
 
   return (
@@ -34,7 +36,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider session={session}>
-          {children}
+          <QueryPorivder>
+            {children}
+          </QueryPorivder>
         </SessionProvider>
       </body>
     </html>
