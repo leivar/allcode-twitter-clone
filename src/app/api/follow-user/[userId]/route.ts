@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getAuthOptions } from "@/lib/auth";
 
-export async function GET ( request: NextRequest, { params }: { params: {userId: string}}) {
+export async function POST ( request: NextRequest, { params }: { params: {userId: string}}) {
 
   const userId = params.userId; // Turbopack incorrectly says to await `params`; it's not async
   const authOptions = await getAuthOptions();
@@ -14,9 +14,8 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   };
 
-  let user = await prisma.user.findUnique({
-    where: { id: userId},
-    include: { following: true, followed: true }
+  const user = await prisma.user.findUnique({
+    where: { id: userId}
   });
 
   if (!user) {
@@ -27,34 +26,48 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
     where: { email: session.user?.email ?? ""}
   })
 
-  if(!requester) {
-    return NextResponse.json({ message: "User could not be found."}, {status: 404 })
+  if (!requester) {
+    return NextResponse.json({message: "User could not be found" }, { status: 404 })
+  }
+
+  if (user.email === requester.id) {
+    return NextResponse.json({ message: "You cannot follow yourself"}, { status: 403 })
   }
 
   const follow = await prisma.follow.findFirst({
     where: { followedId: user.id, followingId: requester.id }
-  })
+  });
 
-  let userWithFollowing;
+  if (follow) {
+    await prisma.follow.delete({
+      where: { id: follow.id }
+    });
 
-  if(follow) {
-    userWithFollowing = {
-      ...user,
-      isFollowing: true
-    }
+    return NextResponse.json({ message: "Unfollowed user." }, { status: 200 });
   } else {
-    userWithFollowing = {
-      ...user,
-      isFollowing: false
-    }
-  }
 
-  return NextResponse.json(userWithFollowing, { status: 200 });
+    const follow = await prisma.follow.create({
+      data: {
+        followed: {
+          connect: {
+            id: user.id
+          },
+        },
+        following: {
+          connect: {
+            id: requester.id
+          },
+        },
+      },
+    });
+
+    return NextResponse.json({ message: "Followed user." }, { status: 200 });
+  };
 
 };
 
 // Exported POST does not serve a purpose besides avoiding errors with nextJS. Got error 405 without, and got errors if it was not async. 
-export async function POST ( request:NextRequest, { params }: { params: {userId: string}}) {
+export async function GET ( request:NextRequest, { params }: { params: {userId: string}}) {
   const userID = params.userId;
   const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
