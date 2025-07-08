@@ -12,7 +12,11 @@ const api = {
   followUser: async (userId: string) => {
     const { data } = await axios.post('/api/follow-user/' + userId);
     return data;
-  }
+  },
+  createPost: async (postData: {content: string }) => {
+    const { data } = await axios.post('/api/create-post', postData);
+    return data;
+  }  
 };
 
 export default api;

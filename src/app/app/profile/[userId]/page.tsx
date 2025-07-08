@@ -25,9 +25,9 @@ export default function Profile() {
 
   if (user.isSuccess){
 
-  const profilePicture = user.data.image;
+    const profilePicture = user.data.image;
 
-  return (
+    return (
       <section id="profile-container">
         <section id="profile-loading-container">
           {user.isLoading ? 

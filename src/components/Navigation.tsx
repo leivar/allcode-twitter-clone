@@ -19,10 +19,12 @@ export default function Navigation() {
         alt="logo"
         id="navigation-logo"
       />
-      <Link href="#" className="text-xl font-semibold hover:underline">Home</Link>
+      <Link href="/app" className="text-xl font-semibold hover:underline">Home</Link>
       <Link href={user.isSuccess ? "/app/profile/" + user.data.id : "/app"} className="text-xl font-semibold hover:underline">Profile</Link>
       <Link href="#" className="text-xl font-semibold hover:underline">Notifications</Link>
-      <section id="navigation-sign-out"><button onClick={() => signOut()} className="text-xl font-semibold hover:underline hover:cursor-pointer">Sign Out</button></section>
+      <section id="navigation-sign-out">
+        <button onClick={() => signOut()} className="text-xl font-semibold hover:underline hover:cursor-pointer">Sign Out</button>
+      </section>
       <Link href="/app" className="bg-blue-400 p-2 text-white text-center rounded-full hover:bg-blue-500">New Tweet</Link>
     </nav>
   )
