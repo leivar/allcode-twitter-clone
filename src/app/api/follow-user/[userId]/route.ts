@@ -66,9 +66,6 @@ export async function POST ( request: NextRequest, { params }: { params: {userId
 
 };
 
-// Exported POST does not serve a purpose besides avoiding errors with nextJS. Got error 405 without, and got errors if it was not async. 
-export async function GET ( request:NextRequest, { params }: { params: {userId: string}}) {
-  const userID = params.userId;
-  const authOptions = await getAuthOptions();
-  const session = await getServerSession(authOptions);
+export async function GET ( request:NextRequest ) {
+  return NextResponse.json({ message: "Not a valid API route"}, {status: 403})
 }

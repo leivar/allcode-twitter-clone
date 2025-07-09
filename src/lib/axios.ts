@@ -14,9 +14,21 @@ const api = {
     return data;
   },
   createPost: async (postData: {content: string }) => {
-    const { data } = await axios.post('/api/create-post', postData);
+    const { data } = await axios.post('/api/post', postData);
     return data;
-  }  
+  },
+  getPosts: async () => {
+    const { data } = await axios.get('/api/feed');
+    return data;
+  },
+  getUserPosts: async (userId: string) => {
+    const { data } = await axios.get('/api/user-posts/' + userId);
+    return data;
+  },
+  getPost: async (postId: string ) => {
+    const { data } = await axios.get('/api/post/' + postId);
+    return data;
+  }
 };
 
 export default api;
