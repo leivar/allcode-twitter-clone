@@ -6,7 +6,7 @@ import { getAuthOptions } from "@/lib/auth";
 
 export async function GET ( request: NextRequest, { params }: { params: {userId: string}}) {
 
-  const userId = params.userId; // Turbopack incorrectly says to await `params`; it's not async
+  const userId = (await params).userId; // Await is not really needed with params like this, but this avoids conflict with turbopack
   const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
 
@@ -16,24 +16,24 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
 
   let user = await prisma.user.findUnique({
     where: { id: userId},
-    include: { following: true, followed: true }
+    include: { following: true, followed: true },
   });
 
   if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 })
+    return NextResponse.json({ message: "User could not be found" }, { status: 402 });
   };
 
   const requester = await prisma.user.findUnique({
-    where: { email: session.user?.email ?? ""}
-  })
+    where: { email: session.user?.email ?? ""},
+  });
 
   if(!requester) {
-    return NextResponse.json({ message: "User could not be found."}, {status: 404 })
-  }
+    return NextResponse.json({ message: "User could not be found"}, {status: 404 });
+  };
 
   const follow = await prisma.follow.findFirst({
-    where: { followedId: user.id, followingId: requester.id }
-  })
+    where: { followedId: user.id, followingId: requester.id },
+  });
 
   let userWithFollowing;
 
@@ -47,15 +47,12 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
       ...user,
       isFollowing: false
     }
-  }
+  };
 
   return NextResponse.json(userWithFollowing, { status: 200 });
 
 };
 
-// Exported POST does not serve a purpose besides avoiding errors with nextJS. Got error 405 without, and got errors if it was not async. 
-export async function POST ( request:NextRequest, { params }: { params: {userId: string}}) {
-  const userID = params.userId;
-  const authOptions = await getAuthOptions();
-  const session = await getServerSession(authOptions);
-}
+export async function Post ( request:NextRequest ) {
+  return NextResponse.json({ message: "Not a valid API route"}, {status: 403});
+};

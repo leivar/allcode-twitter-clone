@@ -8,7 +8,7 @@ export async function GET ( request: NextRequest, { params }: { params: { userId
 
   const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
-  const userId = params.userId; // Turbopack incorrectly says to await `params`; it's not async
+  const userId = (await params).userId; // Await is not really needed with params like this, but this avoids conflict with turbopack
 
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -24,16 +24,23 @@ export async function GET ( request: NextRequest, { params }: { params: { userId
 
   const posts = await prisma.post.findMany({
     where: { userId: userId },
-    include: { user: true },
+    include: { user: true, likes: true },
     orderBy: {
       created_at: 'desc'
     },
   });
+
+  const postsWithLikeStatus = posts.map(post => {
+    const hasUserLiked = post.likes.some(like => like.userId === user.id);
+    return {
+      ...post,
+      likeStatus: hasUserLiked,
+    };
+  });
   
-  return NextResponse.json( posts, { status: 200 });
+  return NextResponse.json( postsWithLikeStatus, { status: 200 });
 };
 
-// Only exists to avoid problems with nextJS REST API structure
 export async function POST ( request:NextRequest ) {
-  return NextResponse.json({ message: "Not a valid API route"}, {status: 403})
-}
+  return NextResponse.json({ message: "Not a valid API route"}, {status: 403});
+};

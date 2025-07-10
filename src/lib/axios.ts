@@ -28,7 +28,11 @@ const api = {
   getPost: async (postId: string ) => {
     const { data } = await axios.get('/api/post/' + postId);
     return data;
-  }
+  },
+  likePost: async (postId: string ) => {
+    const { data } = await axios.post('/api/like/' + postId);
+    return data;
+  },
 };
 
 export default api;

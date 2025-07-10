@@ -23,16 +23,16 @@ export async function POST ( request: NextRequest) {
   };
 
   if (!postData.content) {
-    return NextResponse.json({ message: "You've left empty fields." }, { status: 401 })
+    return NextResponse.json({ message: "You've left empty fields" }, { status: 401 })
   };
 
   if(user.premium){
     if (postData.content.length > 2500) {
-      return NextResponse.json({ message: "The post is too long, it can not be longer than 2500 chars."})
+      return NextResponse.json({ message: "The post is too long, it can not be longer than 2500 chars"})
     };
   }else {
     if (postData.content.length > 280) {
-      return NextResponse.json({ message: "The post is too long, it can not be longer than 280 chars. Buy premium to expand this to 2500 chars."}, { status: 401 })
+      return NextResponse.json({ message: "The post is too long, it can not be longer than 280 chars. Buy premium to expand this to 2500 chars"}, { status: 401 })
     };
   };
 
@@ -47,5 +47,5 @@ export async function POST ( request: NextRequest) {
     },
   });
   
-  return NextResponse.json({ message: "Succesully created post."}, { status: 200 });
+  return NextResponse.json({ message: "Succesully created post"}, { status: 200 });
 };

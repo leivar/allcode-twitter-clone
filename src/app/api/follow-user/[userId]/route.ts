@@ -6,7 +6,7 @@ import { getAuthOptions } from "@/lib/auth";
 
 export async function POST ( request: NextRequest, { params }: { params: {userId: string}}) {
 
-  const userId = params.userId; // Turbopack incorrectly says to await `params`; it's not async
+  const userId = (await params).userId;  // Await is not really needed with params like this, but this avoids conflict with turbopack
   const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
 
@@ -15,35 +15,35 @@ export async function POST ( request: NextRequest, { params }: { params: {userId
   };
 
   const user = await prisma.user.findUnique({
-    where: { id: userId}
+    where: { id: userId},
   });
 
   if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 })
+    return NextResponse.json({ message: "User could not be found" }, { status: 402 });
   };
 
   const requester = await prisma.user.findUnique({
-    where: { email: session.user?.email ?? ""}
-  })
+    where: { email: session.user?.email ?? ""},
+  });
 
   if (!requester) {
-    return NextResponse.json({message: "User could not be found" }, { status: 404 })
-  }
+    return NextResponse.json({message: "User could not be found" }, { status: 404 });
+  };
 
   if (user.email === requester.id) {
-    return NextResponse.json({ message: "You cannot follow yourself"}, { status: 403 })
+    return NextResponse.json({ message: "You cannot follow yourself"}, { status: 403 });
   }
 
   const follow = await prisma.follow.findFirst({
-    where: { followedId: user.id, followingId: requester.id }
+    where: { followedId: user.id, followingId: requester.id },
   });
 
   if (follow) {
     await prisma.follow.delete({
-      where: { id: follow.id }
+      where: { id: follow.id },
     });
 
-    return NextResponse.json({ message: "Unfollowed user." }, { status: 200 });
+    return NextResponse.json({ message: "Unfollowed user" }, { status: 200 });
   } else {
 
     const follow = await prisma.follow.create({
@@ -61,11 +61,11 @@ export async function POST ( request: NextRequest, { params }: { params: {userId
       },
     });
 
-    return NextResponse.json({ message: "Followed user." }, { status: 200 });
+    return NextResponse.json({ message: "Followed user" }, { status: 200 });
   };
 
 };
 
 export async function GET ( request:NextRequest ) {
-  return NextResponse.json({ message: "Not a valid API route"}, {status: 403})
-}
+  return NextResponse.json({ message: "Not a valid API route"}, {status: 403});
+};

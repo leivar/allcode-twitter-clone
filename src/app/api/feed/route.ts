@@ -22,26 +22,36 @@ export async function GET ( request:NextRequest ) {
     return NextResponse.json({ message: "User could not be found" }, { status: 402 })
   };
 
+// Implemented a prisma logic that filters in the query instead of after so it doesn't query the server for every single post before filtering through them.
   const followedIds = user.following.map(user => user.followedId);
   followedIds.push(user.id);
 
-  const followedPosts = await prisma.post.findMany({
+  let followedPosts = await prisma.post.findMany({
     where: {
       userId: {
         in: followedIds,
       },
     },
     include: {
-      user: true
+      user: true,
+      likes: true
     },
     orderBy: {
       created_at: 'desc',
     },
   });
 
-  return NextResponse.json(followedPosts, { status: 200 });
+  const postsWithLikeStatus = followedPosts.map(post => {
+    const hasUserLiked = post.likes.some(like => like.userId === user.id);
+    return {
+      ...post,
+      likeStatus: hasUserLiked,
+    };
+  });
+
+  return NextResponse.json(postsWithLikeStatus, { status: 200 });
 };
 
 export async function Post ( request:NextRequest ) {
-  return NextResponse.json({ message: "Not a valid API route."}, {status: 403})
-}
+  return NextResponse.json({ message: "Not a valid API route"}, {status: 403});
+};
