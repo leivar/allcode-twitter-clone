@@ -24,7 +24,7 @@ export default function Post({ post }: any) {
         <p>{post.content}</p>
       </section>
       <section className="flex justify-between items-center text-center mt-2">
-        <Link href="#" className="w-full p-2 border-t-2 border-gray-300">4 Replies</Link>
+        <Link href={"/app/post/" + post.id} className="w-full p-2 border-t-2 border-gray-300">4 Replies</Link>
         <button 
           onClick={() => likePost.mutate()} 
           className={post.likeStatus ?

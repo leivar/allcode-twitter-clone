@@ -19,7 +19,7 @@ export async function POST ( request: NextRequest, { params }: { params: {userId
   });
 
   if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 });
+    return NextResponse.json({ message: "User could not be found" }, { status: 404 });
   };
 
   const requester = await prisma.user.findUnique({

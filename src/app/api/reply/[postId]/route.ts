@@ -7,6 +7,7 @@ import { getAuthOptions } from "@/lib/auth";
 export async function POST ( request: NextRequest, { params }: { params: {postId: string}}) {
 
   const postId = (await params).postId;  // Await is not really needed with params like this, but this avoids conflict with turbopack
+  const postData = await request.json();
   const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
 
@@ -30,34 +31,27 @@ export async function POST ( request: NextRequest, { params }: { params: {postId
     return NextResponse.json({message: "User could not be found" }, { status: 404 })
   };
 
-  const like = await prisma.like.findFirst({
-    where: { postId: postId, userId: requester.id }
-  });
+  if (!postData.content) {
+    return NextResponse.json({ message: "You've left empty fields"}, { status: 403 })
+  }
 
-  if (like) {
-    await prisma.like.delete({
-      where: { id: like.id },
-    });
-
-    return NextResponse.json({ message: "Unliked post" }, { status: 200 });
-  } else {
-    await prisma.like.create({
-      data: {
-        post: {
-          connect: {
-            id: postId
-          },
-        },
-        user: {
-          connect: {
-            id: requester.id
-          },
+  await prisma.reply.create({
+    data: {
+      post: {
+        connect: {
+          id: postId
         },
       },
-    });
-    
-    return NextResponse.json({ message: "Liked post" }, { status: 200 });
-  };
+      user: {
+        connect: {
+          id: requester.id
+        },
+      },
+      content: postData.content
+    },
+  });
+
+  return NextResponse.json({ message: "Reply sent" }, { status: 200 });
 
 };
 

@@ -18,7 +18,7 @@ export async function GET (request:NextRequest) {
   });
 
   if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 })
+    return NextResponse.json({ message: "User could not be found" }, { status: 404 })
   };
 
   return NextResponse.json(user, { status: 200 });

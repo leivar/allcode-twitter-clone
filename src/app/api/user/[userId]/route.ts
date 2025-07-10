@@ -14,15 +14,6 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   };
 
-  let user = await prisma.user.findUnique({
-    where: { id: userId},
-    include: { following: true, followed: true },
-  });
-
-  if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 });
-  };
-
   const requester = await prisma.user.findUnique({
     where: { email: session.user?.email ?? ""},
   });
@@ -32,19 +23,19 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
   };
 
   const follow = await prisma.follow.findFirst({
-    where: { followedId: user.id, followingId: requester.id },
+    where: { followedId: requester.id, followingId: requester.id },
   });
 
   let userWithFollowing;
 
   if(follow) {
     userWithFollowing = {
-      ...user,
+      ...requester,
       isFollowing: true
     }
   } else {
     userWithFollowing = {
-      ...user,
+      ...requester,
       isFollowing: false
     }
   };

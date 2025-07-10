@@ -24,6 +24,7 @@ model User {
   Authenticator Authenticator[]
   Post          Post[]
   likes         Like[]
+  resplies      Reply[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -88,6 +89,7 @@ content         String
 created_at      DateTime        @default(now())
 collapsed       Boolean         @default(false)
 likes           Like[]
+replies         Reply[]
 }
 
 model Like {
@@ -96,6 +98,17 @@ post            Post @relation(references: [id], fields: [postId], onDelete: Cas
 postId          String
 user            User @relation(references: [id], fields: [userId])
 userId          String
+}
+
+model Reply {
+id              String @id @default(cuid())
+post            Post @relation(references: [id], fields: [postId], onDelete: Cascade)
+postId          String
+user            User @relation(references: [id], fields: [userId])
+userId          String
+content         String
+created_at      DateTime @default(now())
+
 }
  
 // Optional for WebAuthn support

@@ -19,7 +19,7 @@ export async function GET ( request:NextRequest ) {
   });
 
   if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 })
+    return NextResponse.json({ message: "User could not be found" }, { status: 404 })
   };
 
 // Implemented a prisma logic that filters in the query instead of after so it doesn't query the server for every single post before filtering through them.

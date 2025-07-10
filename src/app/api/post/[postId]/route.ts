@@ -24,7 +24,18 @@ export async function GET ( request:NextRequest, { params }: { params: Promise<{
 
   const post = await prisma.post.findUnique({
     where: { id: postId },
-    include: { user: true, likes: true },
+    include: { 
+      user: true, 
+      likes: true, 
+      replies: {
+        include: { 
+          user: true 
+        },
+        orderBy: {
+          created_at: 'desc'
+        },
+      },
+    },
   });
 
   if(!post) {

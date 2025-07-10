@@ -33,6 +33,10 @@ const api = {
     const { data } = await axios.post('/api/like/' + postId);
     return data;
   },
+  replyPost: async (postId: string, content: { content: string }) => {
+    const { data } = await axios.post('/api/reply/' + postId, content);
+    return data;
+  }
 };
 
 export default api;

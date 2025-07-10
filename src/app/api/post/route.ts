@@ -19,11 +19,11 @@ export async function POST ( request: NextRequest) {
   });
 
   if (!user) {
-    return NextResponse.json({ message: "User could not be found" }, { status: 402 })
+    return NextResponse.json({ message: "User could not be found" }, { status: 404 })
   };
 
   if (!postData.content) {
-    return NextResponse.json({ message: "You've left empty fields" }, { status: 401 })
+    return NextResponse.json({ message: "You've left empty fields" }, { status: 403 })
   };
 
   if(user.premium){
@@ -32,7 +32,7 @@ export async function POST ( request: NextRequest) {
     };
   }else {
     if (postData.content.length > 280) {
-      return NextResponse.json({ message: "The post is too long, it can not be longer than 280 chars. Buy premium to expand this to 2500 chars"}, { status: 401 })
+      return NextResponse.json({ message: "The post is too long, it can not be longer than 280 chars. Buy premium to expand this to 2500 chars"}, { status: 403 })
     };
   };
 
