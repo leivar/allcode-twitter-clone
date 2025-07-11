@@ -1,1 +1,1 @@
-#This is a clone of how Twitter used to be with functionality added as we go,
+#This is a clone of how Twitter used to be with functionality added as we go

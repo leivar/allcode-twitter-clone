@@ -73,7 +73,7 @@ export default function Profile() {
                   <section id="profile-interact-button"className="flex justify-center">
                     {user.data.email === session?.user?.email ? (
                       <section id="profile-interact-button-owner">
-                        <button className="bg-blue-400 hover:bg-blue-500 p-1 text-white rounded-full w-24">Edit profile</button>
+                        <button onClick={() => console.log(user.data)} className="bg-blue-400 hover:bg-blue-500 p-1 text-white rounded-full w-24">Edit profile</button>
                       </section>
                     ) : (
                       <section id="profile-interact-button-guest">

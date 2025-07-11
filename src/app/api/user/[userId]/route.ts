@@ -16,6 +16,7 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
 
   const requester = await prisma.user.findUnique({
     where: { email: session.user?.email ?? ""},
+    include: { followed: true, following: true}
   });
 
   if(!requester) {

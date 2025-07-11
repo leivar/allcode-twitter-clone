@@ -1,12 +1,14 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import api from "@/lib/axios";
 import Post from "@/components/Post";
 
 export default function App() {
+
+  const queryClient = useQueryClient();
 
   const { data: session } = useSession();
   const [ postData, setPostData ] = useState("");
@@ -16,8 +18,14 @@ export default function App() {
     queryFn: api.getPosts
   });
 
+  function createPostSuccess(){
+    setPostData("");
+    queryClient.invalidateQueries();
+  }
+
   const createPost = useMutation({
     mutationFn: () => api.createPost({ content: postData}),
+    onSuccess: () => createPostSuccess(),
   });
 
   return (
@@ -44,4 +52,4 @@ export default function App() {
       </section>
     </>
   );
-}
+};
