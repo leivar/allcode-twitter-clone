@@ -24,7 +24,7 @@ export async function GET ( request: NextRequest, { params }: { params: { userId
 
   const posts = await prisma.post.findMany({
     where: { userId: userId },
-    include: { user: true, likes: true },
+    include: { user: true, likes: true, replies: true },
     orderBy: {
       created_at: 'desc'
     },

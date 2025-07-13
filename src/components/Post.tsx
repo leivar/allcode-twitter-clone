@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCopyToClipboard } from "usehooks-ts";
 import Link from "next/link";
 import api from "@/lib/axios";
 
 export default function Post({ post }: any) {
 
   const queryClient = useQueryClient();
-
+  const [ value, copy ] = useCopyToClipboard();
   const likePost = useMutation({
     mutationFn: () => api.likePost(post.id as string),
     onSuccess: () => queryClient.invalidateQueries(),
@@ -24,7 +25,7 @@ export default function Post({ post }: any) {
         <p>{post.content}</p>
       </section>
       <section className="flex justify-between items-center text-center mt-2">
-        <Link href={"/app/post/" + post.id} className="w-full p-2 border-t-2 border-gray-300">4 Replies</Link>
+        <Link href={"/app/post/" + post.id} className="w-full p-2 border-t-2 border-gray-300">{post.replies.length} Replies</Link>
         <button 
           onClick={() => likePost.mutate()} 
           className={post.likeStatus ?
@@ -33,7 +34,7 @@ export default function Post({ post }: any) {
             }>
           {post.likes.length} Likes
         </button>
-        <button className="w-full p-2 border-t-2 border-gray-300">Share</button>
+        <button onClick={() => copy(process.env.NEXT_PUBLIC_BASE_URL + '/app/post/'+post.id)} className="w-full p-2 border-t-2 border-gray-300">{value ? "Copied to clipboard!": "Share"}</button>
       </section>
     </section> 
   );

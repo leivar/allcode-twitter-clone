@@ -34,7 +34,8 @@ export async function GET ( request:NextRequest ) {
     },
     include: {
       user: true,
-      likes: true
+      likes: true,
+      replies: true,
     },
     orderBy: {
       created_at: 'desc',

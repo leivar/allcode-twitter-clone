@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Post from "@/components/Post";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function PostPage() {
 
@@ -48,7 +49,7 @@ export default function PostPage() {
               <section className="flex gap-2">
                 <img src={reply.user.image} className="w-14 h-14 rounded-full"/>
                 <section className="flex flex-col">
-                  <h3 className="font-semibold text-lg">{reply.user.name}</h3>
+                  <Link href={"/app/profile/" + reply.userId} className="font-semibold text-lg">{reply.user.name}</Link>
                   <h4 className="text-sm text-gray-600">{reply.user.email}</h4>
                 </section>
               </section>

@@ -36,7 +36,11 @@ const api = {
   replyPost: async (postId: string, content: { content: string }) => {
     const { data } = await axios.post('/api/reply/' + postId, content);
     return data;
-  }
+  },
+  searchUsers: async (content: { content: string }) => {
+    const { data } = await axios.post('/api/search-users', content);
+    return data;
+  },
 };
 
 export default api;
