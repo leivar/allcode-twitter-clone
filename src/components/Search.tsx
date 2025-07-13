@@ -2,6 +2,7 @@
 import api from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Search() {
 
@@ -21,13 +22,15 @@ export default function Search() {
         {!searchUsers.isSuccess ? (
           <p>No results yet.</p>
         ) : (
-          <>
+          <section className="flex flex-col gap-4">
+            <p className="font-semibold">Profiles</p>
             {searchUsers.data.results.map((user:any, index:any) => (
-              <section key={index}>
-                {user.name}
-              </section>
+              <Link href={"/app/profile/" + user.id } key={ index } className="flex items-center gap-4">
+                <img src={user.image} className="w-8 h-8 rounded-full" />
+                <p className="textl-lg">{user.name}</p>
+              </Link>
             ))}
-          </>
+          </section>
         )}
       </section>
 
