@@ -1,4 +1,5 @@
 import axios from "axios";
+import { signOut } from "next-auth/react";
 
 const api = {
   getCurrentUser: async () => {
@@ -38,9 +39,21 @@ const api = {
     return data;
   },
   searchUsers: async (content: { content: string }) => {
-    const { data } = await axios.post('/api/search-users', content);
+    const { data } = await axios.post('/api/search-users/', content);
     return data;
   },
+  getNotifications: async () => {
+    const { data } = await axios.get('/api/notifications/');
+    return data;
+  },
+  readNotifications: async () => {
+    const { data } = await axios.post('/api/notifications/');
+    return data;
+  },
+  getUnreadNotifications: async () => {
+    const { data } = await axios.get('/api/notifications/unread-notifications/');
+    return data;
+  }
 };
 
 export default api;

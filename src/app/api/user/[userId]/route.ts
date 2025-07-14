@@ -20,23 +20,32 @@ export async function GET ( request: NextRequest, { params }: { params: {userId:
   });
 
   if(!requester) {
-    return NextResponse.json({ message: "User could not be found"}, {status: 404 });
+    return NextResponse.json({ message: "User could not be found"}, { status: 404 });
   };
 
+  const user = await prisma.user.findUnique({
+    where: {id: userId},
+    include: { followed: true, following: true}
+  });
+
+  if(!user){
+    return NextResponse.json({message: "User could note be found"}, { status: 404 })
+  }
+
   const follow = await prisma.follow.findFirst({
-    where: { followedId: requester.id, followingId: requester.id },
+    where: { followedId: user.id, followingId: requester.id },
   });
 
   let userWithFollowing;
 
   if(follow) {
     userWithFollowing = {
-      ...requester,
+      ...user,
       isFollowing: true
     }
   } else {
     userWithFollowing = {
-      ...requester,
+      ...user,
       isFollowing: false
     }
   };

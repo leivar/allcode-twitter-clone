@@ -6,6 +6,7 @@ import Post from "@/components/Post";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Link from "next/link";
+import PageTitle from "@/components/PageTitle";
 
 export default function PostPage() {
 
@@ -31,6 +32,7 @@ export default function PostPage() {
     <>
       {post.isSuccess ? (
       <>
+        <PageTitle pageTitle="Post" />
         <Post post={post.data} />
         <section className="flex gap-2 p-4 items-center border-b-2 border-gray-300">
           <section>

@@ -4,6 +4,7 @@ import api from "@/lib/axios";
 import { useParams, redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Post from "@/components/Post";
+import PageTitle from "@/components/PageTitle";
 
 export default function Profile() {
 
@@ -35,6 +36,7 @@ export default function Profile() {
 
     return (
       <>
+        <PageTitle pageTitle={"Profile"}/>
         <section id="profile-container">
           <section id="profile-loading-container">
             {user.isLoading ? 
@@ -44,7 +46,7 @@ export default function Profile() {
           </section>
           {user.isError ? (
             <section id="profile-loading-error-container">
-              <p className="bg-red-500 rounded-xl p-2">Failed to load, please refresh the page or try again later</p>
+              <p className="bg-red-500 rounded-xl p-2">Failed to load, please refresh the page or try again later.</p>
             </section>
           ) : null}
           {user.isSuccess ? (
@@ -70,10 +72,9 @@ export default function Profile() {
                       <h4>Following</h4>
                     </section>
                   </section>
-                  <section id="profile-interact-button"className="flex justify-center">
+                  <section id="profile-interact-button" className="flex justify-center">
                     {user.data.email === session?.user?.email ? (
                       <section id="profile-interact-button-owner">
-                        <button onClick={() => console.log(user.data)} className="bg-blue-400 hover:bg-blue-500 p-1 text-white rounded-full w-24">Edit profile</button>
                       </section>
                     ) : (
                       <section id="profile-interact-button-guest">

@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import api from "@/lib/axios";
 import Post from "@/components/Post";
+import PageTitle from "@/components/PageTitle";
 
 export default function App() {
 
@@ -30,6 +31,7 @@ export default function App() {
 
   return (
     <>
+      <PageTitle pageTitle={"Home"}/>
       <section className="flex gap-2 p-4 items-center border-b-2 border-gray-300">
         <section>
           <img src={session?.user?.image ?? ""} className="w-16 rounded-full" />
