@@ -1,9 +1,8 @@
 import axios from "axios";
-import { signOut } from "next-auth/react";
 
 const api = {
   getCurrentUser: async () => {
-    const { data } = await axios.get('/api/current-user');
+    const { data } = await axios.get('/api/user/current-user');
     return data;
   },
   getUser: async (userId: string) => {
@@ -11,7 +10,7 @@ const api = {
     return data;
   },
   followUser: async (userId: string) => {
-    const { data } = await axios.post('/api/follow-user/' + userId);
+    const { data } = await axios.post('/api/follow/' + userId);
     return data;
   },
   createPost: async (postData: {content: string }) => {
@@ -23,7 +22,7 @@ const api = {
     return data;
   },
   getUserPosts: async (userId: string) => {
-    const { data } = await axios.get('/api/user-posts/' + userId);
+    const { data } = await axios.get('/api/user/user-posts/' + userId);
     return data;
   },
   getPost: async (postId: string ) => {
@@ -39,7 +38,7 @@ const api = {
     return data;
   },
   searchUsers: async (content: { content: string }) => {
-    const { data } = await axios.post('/api/search-users/', content);
+    const { data } = await axios.post('/api/search/', content);
     return data;
   },
   getNotifications: async () => {

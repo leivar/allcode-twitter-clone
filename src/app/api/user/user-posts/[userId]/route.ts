@@ -22,6 +22,15 @@ export async function GET ( request: NextRequest, { params }: { params: { userId
     return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
 
+  const requester = await prisma.user.findUnique({
+    where: { email: session.user?.email ?? ""},
+    include: { followed: true, following: true}
+  });
+
+  if(!requester) {
+    return NextResponse.json({ message: "User could not be found"}, { status: 404 });
+  };
+
   const posts = await prisma.post.findMany({
     where: { userId: userId },
     include: { user: true, likes: true, replies: true },
@@ -31,7 +40,7 @@ export async function GET ( request: NextRequest, { params }: { params: { userId
   });
 
   const postsWithLikeStatus = posts.map(post => {
-    const hasUserLiked = post.likes.some(like => like.userId === user.id);
+    const hasUserLiked = post.likes.some(like => like.userId === requester.id);
     return {
       ...post,
       likeStatus: hasUserLiked,
