@@ -35,7 +35,7 @@ export default function Navigation() {
       <section id="navigation-sign-out">
         <button onClick={() => signOut({redirect: false})} className="text-xl font-semibold hover:underline hover:cursor-pointer">Sign Out</button>
       </section>
-      <Link href="/app" className="bg-blue-400 p-2 text-white text-center rounded-full hover:bg-blue-500">New Tweet</Link>
+      <Link href="/app" className="bg-blue-400 p-2 text-white text-center rounded-full hover:bg-blue-500 w-40 md:w-auto">New Tweet</Link>
       <section className="md:hidden">
         <Search />
       </section>

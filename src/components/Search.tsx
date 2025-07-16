@@ -12,11 +12,15 @@ export default function Search() {
     mutationFn: () => api.searchUsers({content: searchData}),
   });
 
+  function continuesSearch(value: string) {
+    setSearchData(value);
+    searchUsers.mutate();
+  }
+
   return (
-    <section className="flex flex-col p-4 gap-4">
+    <section className="flex flex-col md:p-4 gap-4">
       <section className="flex flex-col md:flex-row gap-2">
-        <input value={searchData} onChange={(e) => setSearchData(e.target.value)} className="bg-gray-200 p-2 rounded-full outline-none w-full" placeholder="Search for users" type="text"/>
-        <button onClick={() => searchUsers.mutate()} className="bg-blue-400 hover:bg-blue-500 text-center hover:cursor-pointer text-white rounded-full py-2 px-4">Search</button>
+        <input value={searchData} onChange={(e) => continuesSearch(e.target.value)} className="bg-gray-200 p-2 rounded-full outline-none w-40 md:w-full" placeholder="Search for users" type="text"/>
       </section>
       <section>
         {!searchUsers.isSuccess ? (

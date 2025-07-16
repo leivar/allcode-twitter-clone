@@ -18,10 +18,11 @@ export default async function AppLayout ({
   };
 
   return (
-    <section className="grid grid-cols-3 md:grid-cols-4">
-      <section>
+    <section className="grid grid-cols-3 md:grid-cols-4 relative">
+      <section className="fixed top-0 left-0">
         <Navigation />
       </section>
+      <section className=""></section>
       <div className="col-span-2 border-x-2 border-gray-300 min-h-screen">
         {children}
       </div>
