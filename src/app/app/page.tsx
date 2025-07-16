@@ -37,7 +37,7 @@ export default function App() {
           <img src={session?.user?.image ?? ""} className="w-16 rounded-full" />
         </section>
         <section className="w-full p-2">
-          <input value={postData} onChange={(e) => setPostData(e.target.value)} placeholder="What's happening?" className=" outline-none p-2 w-full"/>
+          <textarea value={postData} onChange={(e) => setPostData(e.target.value)} placeholder="What's happening?" className="outline-none md:p-2 w-full text-wrap h-40 md:h-auto"/>
         </section>
         <section>
           <button onClick={() => createPost.mutate()} className="bg-blue-400 hover:bg-blue-500 text-center hover:cursor-pointer text-white rounded-full py-2 px-4">Tweet</button>

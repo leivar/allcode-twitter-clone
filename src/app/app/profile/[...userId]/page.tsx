@@ -50,7 +50,7 @@ export default function Profile() {
             </section>
           ) : null}
           {user.isSuccess ? (
-            <section id="profile-data-main-container" className="flex justify-between gap-4 p-2">
+            <section id="profile-data-main-container" className="flex justify-between md:gap-4 p-2">
               <section id="profile-data-left-container" className="flex flex-col">
                 <section id="profile-picture-container">
                   <img src={profilePicture} className="w-24 rounded-full" />
@@ -62,7 +62,7 @@ export default function Profile() {
               </section>
               <section id="profile-information-right-container"className="flex self-end">
                 <section id="profile-follow-container" className="flex flex-col gap-4">
-                  <section id="profile-follow-data"className="flex gap-4">
+                  <section id="profile-follow-data"className="flex gap-4 flex-col md:flex-row">
                     <section id="profile-followers" className="text-center">
                       <h3 className="font-semibold">{user.data.followed.length ?? "-"}</h3>
                       <h4>Followers</h4>

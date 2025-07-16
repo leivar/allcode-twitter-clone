@@ -52,7 +52,7 @@ const api = {
   getUnreadNotifications: async () => {
     const { data } = await axios.get('/api/notifications/unread-notifications/');
     return data;
-  }
+  },
 };
 
 export default api;

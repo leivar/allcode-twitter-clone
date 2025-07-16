@@ -18,17 +18,17 @@ export default async function AppLayout ({
   };
 
   return (
-    <div className="grid grid-cols-4">
-      <div>
+    <section className="grid grid-cols-3 md:grid-cols-4">
+      <section>
         <Navigation />
-      </div>
+      </section>
       <div className="col-span-2 border-x-2 border-gray-300 min-h-screen">
         {children}
       </div>
-      <div>
+      <section className="hidden md:block">
         <Search />
-      </div>
-    </div>
+      </section>
+    </section>
   )
 
 };
