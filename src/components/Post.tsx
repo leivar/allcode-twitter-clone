@@ -14,7 +14,7 @@ export default function Post({ post }: any) {
 
   return (
     <section className="flex flex-col gap-2 border-b-2 border-gray-300">
-      <section className="flex gap-2">
+      <section className="flex gap-2 p-2">
         <img src={post.user.image} className="w-14 h-14 rounded-full"/>
         <section className="flex flex-col">
           <Link href={"/app/profile/"+post.user.id} className="font-semibold text-lg">{post.user.name}</Link>

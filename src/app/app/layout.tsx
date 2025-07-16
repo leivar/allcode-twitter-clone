@@ -18,15 +18,16 @@ export default async function AppLayout ({
   };
 
   return (
-    <section className="grid grid-cols-3 md:grid-cols-4 relative">
-      <section className="fixed top-0 left-0">
-        <Navigation />
+    <section className="sm:grid sm:grid-cols-4 md:grid-cols-4 relative">
+      <section id="nav-col" className="sm:col-span-1 justify-center">
+        <nav className="sm:fixed sm:top-0 sm:left-0">
+          <Navigation />
+        </nav>
       </section>
-      <section className=""></section>
-      <div className="col-span-2 border-x-2 border-gray-300 min-h-screen">
+      <main className="sm:col-span-3 md:col-span-2 border-x-2 border-gray-300 mb-20 min-h-screen">
         {children}
-      </div>
-      <section className="hidden md:block">
+      </main>
+      <section id="search-field-md" className="hidden col-span-0 md:block md:col-span-1">
         <Search />
       </section>
       <footer className="fixed h-20 w-full bottom-0 bg-blue-500 flex flex-col justify-center items-center">
