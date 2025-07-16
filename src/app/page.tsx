@@ -19,7 +19,7 @@ export default function Home() {
   }
   /* or <button onClick={() => signIn('google')}>Google</button> */ /*add the following line and uncomment in .env for google auth */
   return (
-    <div className="flex flex-col mt-20">
+    <section className="flex flex-col mt-20">
       <section className="flex flex-col gap-4 self-center text-center">
         <img 
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiHIZuDb--IJ-q5d97gWm1W2eyLj7BePcWnQ&s" 
@@ -34,6 +34,6 @@ export default function Home() {
         <p className="text-sm">Don't have a GitHub account yet? Sign up <a href="https://github.com" target="_blank" className="underline">here</a></p>
       </section>
 
-    </div>
+    </section>
   );
 };
