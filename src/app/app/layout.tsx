@@ -30,8 +30,7 @@ export default async function AppLayout ({
         <Search />
       </section>
       <footer className="fixed h-20 w-full bottom-0 bg-blue-500 flex flex-col justify-center items-center">
-        <p>This is just a private project to display development skills. </p>
-        <p>Content and images displayed on this site © X corp.</p>
+        <p>This is a private project to display development skills. </p>
       </footer>
     </section>
   )

@@ -22,7 +22,7 @@ export default function Navigation() {
   return (
     <nav id="navigation" className="md:p-8 flex flex-col gap-6 justify-center">
       <img 
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiHIZuDb--IJ-q5d97gWm1W2eyLj7BePcWnQ&s" 
+        src="https://cdn.pixabay.com/photo/2014/04/02/10/15/bluebird-303230_1280.png" 
         className="w-16"
         alt="logo"
         id="navigation-logo"
